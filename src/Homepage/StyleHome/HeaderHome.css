@@ -21,12 +21,16 @@
 
 .Navegations-Home a{
     text-decoration: none;
-    color: #ffffffe1;
+    color: #949494e1;
     font-size: 17px;
     width: 70px;
     height: 30px;
     align-items: center;
     display: flex;
+}
+
+.Navegations-Home a:hover{
+    color: #ffffff;
 }
 
 .Container-Serves{
@@ -37,10 +41,14 @@
 
 .Container-Serves a{
     text-decoration: none;
-    color: #bebebee1;
+    color: #949494e1;
     font-size: 17px;
     width: 70px;
     height: 30px;
     align-items: center;
     display: flex;
+}
+
+.Container-Serves a:hover{
+    color: #ffffff;
 }

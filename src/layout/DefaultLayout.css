@@ -12,10 +12,10 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    height: 150px;
+    height: 120px;
   }
   .logo img {
-    width: 170px; 
+    width: 150px; 
     height: auto;
   }
   
@@ -25,7 +25,7 @@
   }
   
   .ul-layout li {
-    margin-right: 20px;
+    margin-right: 16px;
   }
   
   .li--layout a {
