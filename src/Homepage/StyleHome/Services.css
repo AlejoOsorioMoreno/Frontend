@@ -1,0 +1,31 @@
+.container-father-services {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    height: 400px;
+}
+
+.container1 {
+    width: 30%;
+    box-sizing: border-box;
+    padding: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.container-text img {
+    max-width: 100%;
+}
+
+.h1-services {
+    font-size: 1.5em;
+}
+
+.p-services {
+    font-size: 1em;
+}
+
+  

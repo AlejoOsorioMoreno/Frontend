@@ -7,7 +7,7 @@ const FrontPage = () => {
       <div className="container-text">
         <h1 className='title-page'>MULTISERVICIOS COMPANY </h1>
         <h2 className='subTitle-page'>WEB DESIGN</h2>
-        <button>FUNCIONA?</button>
+        <button className='button-frontPage'>FUNCIONA?</button>
       </div>
     </section>
   );
