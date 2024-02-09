@@ -3,7 +3,8 @@ import HeaderHome from './HeaderHome';
 import DefaultLayout from '../layout/DefaultLayout';
 import Footer from './Footer';
 import FrontPage from './FrontPage'
-// import Services from './Services'
+import Advertising from './Advertising'
+import Job from './Job'
 import About from './About';
 
 
@@ -13,8 +14,9 @@ const Home = () => {
       <DefaultLayout/>
       <HeaderHome/>
       <FrontPage/>
-      {/* <Services/> */}
       <About/>
+      <Advertising/>
+      <Job/>
       <Footer/>
     </div>
   );

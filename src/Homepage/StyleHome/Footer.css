@@ -4,6 +4,7 @@ footer{
     justify-self: center;
     width: 100%;
     background-color: rgba(75,90,101,255);
+    height: 160px;
 }
 
 .copyrigth p{
@@ -11,7 +12,7 @@ footer{
     color: #fff;  
 }
 
-@keyframes mover{
+/* @keyframes mover{
     0%{
         transform:scale(1.3);
         transform: translate(20%);
@@ -19,14 +20,14 @@ footer{
     100%{
         
     }
-}
+} */
 
 .container-footer{
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
     justify-self: center;
     width: 80%;
+    padding-top: 60px;
 }
 
 .info{
@@ -35,4 +36,10 @@ footer{
     justify-content: space-between;
     margin-top: 15px;
     margin-bottom: 25px;
+}
+.redes{
+    width: 33px;
+    height: auto;
+    filter: invert(100%);
+    padding: 3px;
 }

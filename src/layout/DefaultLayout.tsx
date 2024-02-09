@@ -22,10 +22,10 @@ export default function DefaultLayout({children}:DefaultLayoutProps){
                         <Link to="/">Home</Link>
                     </li>
                     <li className="li--layout">
-                        <Link to="/signup">signup</Link>
+                        <Link to="/signup">Signup</Link>
                     </li>
                     <li className="li--layout">
-                        <Link to="/login">login</Link>
+                        <Link to="/login">Login</Link>
                     </li>
                 </ul>
             </nav>

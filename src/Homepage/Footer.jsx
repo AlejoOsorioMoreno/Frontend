@@ -1,5 +1,7 @@
 import React from 'react';
 import './StyleHome/Footer.css'
+import Whatsapp from '../../public/img/Whatsapp.webp'
+import Email from '../../public/img/Email.webp'
 
 const Footer = () => {
   return (
@@ -13,10 +15,8 @@ const Footer = () => {
           </div>
           <div className="social">
             <div className="media">
-              <img src="#" className="redes" />
-              <img src= "#"  className="redes" />
-              <img src="#" className="redes" />
-              <img src="#" className="redes" />
+              <a href="https://wa.me/573207385815"><img src={Whatsapp} className="redes" /></a>
+              <a href="danielasanchezo2000@gmail.com"><img src= {Email}  className="redes" /></a>
             </div>
           </div>
         </div>
