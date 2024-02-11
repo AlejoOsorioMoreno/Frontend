@@ -1,4 +1,4 @@
-import React from 'react'
+
 import './StyleHome/Advertising.css'
 
 export const Advertising = () => {

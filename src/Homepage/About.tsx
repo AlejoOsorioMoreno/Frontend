@@ -1,4 +1,4 @@
-import React from 'react'
+
 import './StyleHome/About.css'
 
 const AboutImg ="https://firebasestorage.googleapis.com/v0/b/react-firebase-upload-480ee.appspot.com/o/logo%2FAboutUs.jpg_1707662367522?alt=media&token=2f2bda0d-892f-481c-9bc8-5909598e3750"
