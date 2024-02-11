@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { useContext, createContext, useState, useEffect } from "react";
 import type { AccessTokenResponse, AuthResponse, User  } from "../types/types";
 import { API_URL } from "../Autentication/constanst";
@@ -6,14 +7,17 @@ interface AuthProviderProps {
     children: React.ReactNode;
 }
 
-const AuthContext = createContext({
+export const AuthContext = createContext({
     esAutentico: false,
-    getAccessToken: () => {},
-    saveUser: (userData: AuthResponse) => {},
-    getRefreshToken:()=>{},
-    getUser: ()=>({} as User | undefined),
-    signOut: ()=>{},
-});
+    getAccessToken: () => {""},
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
+    saveUser: (_userData: AuthResponse) => {},
+    getRefreshToken: () => {""},
+    getUser: () => ({} as User | undefined),
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    signOut: () => {},
+  });
+  
 
 export function AuthProvider({ children }: AuthProviderProps) {
 
@@ -25,6 +29,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     useEffect(()=>{
         checkAuth();
+         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[]);
 
     async function requestNewAccessToken(refreshToken: string){
@@ -118,7 +123,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     function getAccessToken() {
         return accessToken;
-    };
+    }
 
     function getRefreshToken():string | null {
         const tokenData = localStorage.getItem("token");
@@ -127,7 +132,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
             return token;
         }
         return null;
-    };
+    }
 
     function saveUser(userData: AuthResponse) {
         saveSessionInfo(
@@ -148,4 +153,5 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => useContext(AuthContext);

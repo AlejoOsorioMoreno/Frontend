@@ -1,8 +1,8 @@
 import React from 'react';
 import './StyleHome/Footer.css'
-import Whatsapp from '../../public/img/Whatsapp.webp'
-import Email from '../../public/img/Email.webp'
 
+const Whatsapp= "https://firebasestorage.googleapis.com/v0/b/react-firebase-upload-480ee.appspot.com/o/logo%2FWhatsapp.webp_1707655457978?alt=media&token=823531d3-58ed-43fb-8edb-e7479ba5ce4f";
+const Email= "https://firebasestorage.googleapis.com/v0/b/react-firebase-upload-480ee.appspot.com/o/logo%2FEmail.webp_1707655635764?alt=media&token=b11a9abf-96ec-49dd-83de-f6218605d7c8"
 const Footer = () => {
   return (
     <footer>

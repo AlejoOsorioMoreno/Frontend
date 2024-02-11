@@ -1,14 +1,13 @@
 import { Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "../Autentication/AutProvider";
 import DefaultLayout from "../layout/DefaultLayout"
-import Dashboard from './dashboard';
 import { useState } from "react"
 import { API_URL } from "../Autentication/constanst";
 import type { AuthResponse, AuthResponseError } from "../types/types";
 import React from "react";
 import './login.css'
 
-export default function Login(){
+export default function Login() {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -16,13 +15,13 @@ export default function Login(){
   const auth = useAuth();
   const goto = useNavigate();
 
-  
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>){
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    try{
-      const response = await fetch(`${API_URL}/login`,{
+    try {
+      const response = await fetch(`${API_URL}/login`, {
         method: "POST",
-        headers:{
+        headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
@@ -31,13 +30,13 @@ export default function Login(){
         })
       })
 
-      if(
-        response.ok){
+      if (
+        response.ok) {
         console.log("Inicio de sesión exitoso.")
         setErrorResponse("");
-        const json =(await response.json()) as AuthResponse;
-        
-        if(json.body.accessToken && json.body.refreshToken){
+        const json = (await response.json()) as AuthResponse;
+
+        if (json.body.accessToken && json.body.refreshToken) {
           auth.saveUser(json);
 
           goto("/dashboard")
@@ -45,34 +44,45 @@ export default function Login(){
         }
 
 
-      }else{
+      } else {
         console.log("algo malo acurrió :o");
         const json = (await response.json()) as AuthResponseError;
         setErrorResponse(json.body.error);
         return;
-      
+
       }
-    }catch(error){
+    } catch (error) {
       console.log(error)
     }
   }
 
-  if(auth.esAutentico){
-    return <Navigate to="/dashboard"/>
+  if (auth.esAutentico) {
+    return <Navigate to="/dashboard" />
   }
 
   return (
     <DefaultLayout>
-    <section className="father">
+      <section className="father">
         <div className="wrapper">
-          <form action="">
+          <form action="" onSubmit={handleSubmit}>
             <h1>Login</h1>
+            {!!errorResponse && <div className="errorMessage">{errorResponse}</div>}
             <div className="input-box">
-              <input type="text" placeholder="Username" required />
+              <input
+                type="email"
+                value={username}
+                placeholder="Username"
+                required 
+                onChange={(e)=>setUsername(e.target.value)}></input>
               <i className='bx bxs-user'></i>
             </div>
             <div className="input-box">
-              <input type="password" placeholder="Password" required />
+              <input 
+              type="password" 
+              value={password}
+              placeholder="Password" 
+              required 
+              onChange={(e)=>setPassword(e.target.value)}></input>
               <i className='bx bxs-lock-alt'></i>
             </div>
             <div className="remember-forgot">
@@ -81,7 +91,7 @@ export default function Login(){
               </label>
               <a href="#">¿Forgot Password?</a>
             </div>
-            <button type="submit" className="btn">
+            <button className="btn">
               Login
             </button>
             <div className="register-link">
@@ -91,8 +101,8 @@ export default function Login(){
             </div>
           </form>
         </div>
-    </section>
+      </section>
     </DefaultLayout>
   );
-  
+
 }

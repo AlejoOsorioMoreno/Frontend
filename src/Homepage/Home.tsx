@@ -10,15 +10,15 @@ import About from './About';
 
 const Home = () => {
   return (
-    <div>
-      <DefaultLayout/>
+    
+      <DefaultLayout>
       <HeaderHome/>
       <FrontPage/>
       <About/>
       <Advertising/>
       <Job/>
       <Footer/>
-    </div>
+     </DefaultLayout>
   );
 };
 

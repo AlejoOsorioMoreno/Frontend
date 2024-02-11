@@ -1,63 +1,31 @@
-import React, { useEffect, useState } from "react";
-import { useAuth } from "../Autentication/AutProvider";
+import React, { useEffect, useState } from 'react';
 import {PortalLayout} from "../layout/PortalLayout";
+import { useAuth } from "../Autentication/AutProvider";
 import "./dashboard.css";
-
-interface UserProfile {
-  name: string;
+import { useRef } from 'react';
+type Publicacion = {
+  image: string;
   description: string;
-  profileImage: string;
-}
-
-interface Publication {
-  _id: string;
-  contenido: string;
-  url: string;
-  reactions: {
-    comments: string[];
-    share: string[];
-    like: string[];
-  }
-}
-interface Perfil {
-
-  url: string;
-
-}
+};
 
 export default function Dashboard() {
-  const [editingProfileImage, setEditingProfileImage] = useState<boolean>(false);
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
-  const [downloadURL, setDownloadURL] = useState<Perfil>({
-    url: "",
-  });
-
-  const [userProfile, setUserProfile] = useState<UserProfile>({
-    name: "",
-    description: "",
-    profileImage: "",
-  });
-
-  const [publications, setPublications] = useState<Publication[]>([]);
-  const [newPublication, setNewPublication] = useState({
-    contenido: "",
-    url: "",
-  });
   const auth = useAuth();
+  const [, setEditingProfileImage] = useState(false);
+  const [downloadURL, setDownloadURL] = useState("");
+  const [description, setDescription] = useState("");
+  const [publicaciones, setPublicaciones] = useState<Publicacion[]>([]);
+  const [error, setError] = useState("");
+  const fileInputRef = useRef<HTMLInputElement>(null); // Referencia para el input de tipo file
+  const descriptionTextareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
-    loadPublications(); // Eliminamos la carga del perfil al inicio
-
-  }, []);
-  function isValidUrl(inputUrl) {
-    try {
-      new URL(inputUrl);
-      return true;
-    } catch (error) {
-      return false;
-    }
-  }
-
+    getImageProfile()// Llama a la función para obtener la imagen de perfil cuando el componente se monta
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // El arreglo de dependencias vacío garantiza que el efecto se ejecute solo una vez
+  useEffect(() => {
+    obtenerTodasLasPublicaciones()// Llama a la función para obtener la imagen de perfil cuando el componente se monta
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
   async function handleProfileImageChange(files: FileList | null) {
     try {
       if (!files || files.length === 0) {
@@ -66,14 +34,12 @@ export default function Dashboard() {
       }
 
       const file = files[0];
-      console.log("files ", file);
       const formData = new FormData();
       formData.append("file", file);
-      const archivoEnFormData = formData.get("file");
-      console.log("Archivo en FormData: ", archivoEnFormData);
+      console.log('post TOKEN ', auth.getAccessToken());
 
-
-      const response = await fetch("http://localhost:5000/api/upload", {
+      // Subir la nueva imagen
+      const responsePost = await fetch("http://localhost:5000/api/upload", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${auth.getAccessToken()}`,
@@ -81,221 +47,222 @@ export default function Dashboard() {
         body: formData,
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data);
-        setDownloadURL(data.downloadURL);
-        setUserProfile({
-          ...userProfile,
-          profileImage: data.downloadURL,
-        });
-        setEditingProfileImage(false);
-        await handleFileUpload(data.downloadURL);
-
-      } else {
-        console.error("Error al cambiar la imagen de perfil:", response.statusText);
+      if (!responsePost.ok) {
+        console.error(
+          "Error al cambiar la imagen de perfil:",
+          responsePost.statusText
+        );
+        return;
       }
+
+      const data = await responsePost.json();
+      console.log("Respuesta del servidor POST:", data.downloadURL);
+
+      // Después de cargar la nueva imagen, actualizar la imagen de perfil
+      setDownloadURL(data.downloadURL);
     } catch (error) {
       console.error("Error al cambiar la imagen de perfil:", error);
     }
   }
-  async function handleFileUpload(url) {
+  async function getImageProfile() {
     try {
-      // Validar la URL antes de actualizar la imagen de perfil
-      if (url && !isValidUrl(url)) {
-        console.error("La URL no es válida");
-        return;
-      }
-  
-      const response = await fetch('http://localhost:5000/api/upload', {
+      console.log('este es el token => ', auth.getAccessToken());
+
+      const response = await fetch('http://localhost:5000/api/getImage/:id', {
         method: 'GET',
         headers: {
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${auth.getAccessToken()}`,
         },
       });
-  
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data);
-        
-        // Verificar si la URL existe en los datos obtenidos
-        const matchingElement = data.find(element => element.url === url);
-  
-        if (matchingElement) {
-          console.log("Sí es igual");
-          setDownloadURL(url);
-          setUserProfile(prevProfile => ({
-            ...prevProfile,
-            profileImage: url,
-          }));
-          console.log("Imagen actualizada con éxito");
-        } else {
-          console.error('La URL no fue encontrada en la respuesta del servidor');
-        }
-      } else {
-        console.error('Error al obtener la imagen de perfil:', response.statusText);
+
+      if (!response.ok) {
+        throw new Error('Error al obtener la imagen de perfil: ' + response.statusText);
       }
+
+      const data = await response.json();
+      console.log('==> este es data de get', data);
+
+      if (!data.imageProfile) { // Cambio aquí de data.downloadURL a data.imageProfile
+        throw new Error('Error: La respuesta del servidor no contiene la URL de la imagen de perfil');
+      }
+
+      setDownloadURL(data.imageProfile); // Cambio aquí de data.downloadURL a data.imageProfile
+      console.log('URL de la imagen de perfil obtenida:', data.imageProfile); // Cambio aquí de data.downloadURL a data.imageProfile
     } catch (error) {
       console.error('Error al obtener la imagen de perfil:', error);
     }
+    //
   }
+
+  async function postPublication(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
   
-
-  async function loadPublications() {
     try {
-      const response = await fetch(`http://localhost:5000/api/publication`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${auth.getAccessToken()}`,
-        },
-      });
-
-      if (response.ok) {
-        const json = await response.json();
-        setPublications(json);
-      } else {
-        console.error("Error al cargar las publicaciones:", response.statusText);
+      const formData = new FormData();
+  
+      // Obtener el archivo seleccionado del input de tipo file
+      const files = fileInputRef.current?.files;
+  
+      // Obtener el valor del textarea
+      const description = descriptionTextareaRef.current?.value;
+  
+      // Agregar la descripción al FormData
+      formData.append('description', description || '');
+  
+      if (!files || files.length === 0) {
+        console.error('No se han seleccionado archivos.');
+        return;
       }
-    } catch (error) {
-      console.error("Error al cargar las publicaciones:", error);
-    }
-  }
-  // ...
-
-  async function handlePublish(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-
-    try {
-      const response = await fetch(`http://localhost:5000/api/upload`, {
+  
+      // Agregar el archivo al FormData
+      for (let i = 0; i < files.length; i++) {
+        formData.append('file', files[i]);
+      }
+  
+      const accessToken = auth.getAccessToken();
+      console.log('Token de publicacion', accessToken);
+  
+      const response = await fetch("http://localhost:5000/api/publicationpost", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${auth.getAccessToken()}`,
+          Authorization: `Bearer ${accessToken}`,
         },
-        body: JSON.stringify(newPublication),
+        body: formData,
       });
-
-      if (response.ok) {
-        await loadPublications();
-        setNewPublication({
-          contenido: "",
-          url: "",
-        });
-      } else {
-        console.error("Error al publicar:", response.statusText);
+  
+      console.log('Respuesta al subir publicacion:', response);
+  
+      if (!response.ok) {
+        console.error("Error al cargar la imagen de publicación:", response.statusText);
+        return;
       }
+  
+      const data = await response.json();
+      console.log("Respuesta del servidor al subir publicacion POST:", data);
+  
+      // Actualizar la lista de publicaciones después de la publicación exitosa
+      obtenerTodasLasPublicaciones();
+  
+      // Realizar cualquier acción necesaria después de cargar la nueva publicación
+      // setFile(data.file);
+      fileInputRef.current.value = ''; // Limpiar el input de tipo file
+      setDescription('');
+      console.log('url de imagen publicada',);
+  
     } catch (error) {
-      console.error("Error al publicar:", error);
+      console.error("Error al cargar la imagen publicada:", error);
     }
   }
+  
+  const obtenerTodasLasPublicaciones = async () => {
+    try {
+      const accessToken = auth.getAccessToken();
+      console.log('token de obtener la publicada ', accessToken);
+  
+      const response = await fetch('http://localhost:5000/api/publicationget/:id', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      console.log('tipo de respuesta al obtener publicacion', response);
+  
+      if (!response.ok) {
+        throw new Error('Error al obtener todas las publicaciones');
+      }
+      const data = await response.json();
+  
+      // Ordenar las publicaciones por fecha de forma descendente
+      const publicacionesOrdenadas = data.publications.slice().reverse();
 
-  const increaseReactions = async (url: string) => {
-    console.log("Aumentar reacciones para la URL:", url);
+      console.log( 'estas son las puplicaiones en el orden que se debe revisar',publicacionesOrdenadas);
+      
+      setPublicaciones(publicacionesOrdenadas);
+      console.log('este es data de la publicacion traida ', publicacionesOrdenadas);
+  
+    } catch (error) {
+      if (typeof error === 'string') {
+        setError(error);
+      } else {
+        console.log("error al treer la publicacion");
+      }
+    }
   };
-
-  useEffect(() => {
-    console.log("url => ", downloadURL);
-
-  }, [downloadURL])
+  
+  
 
 
   return (
     <PortalLayout>
       <div className="perfil">
         <div className="profile-header" onClick={() => setEditingProfileImage(true)}>
-          {editingProfileImage ? (
-            <div>
-              <input
-                type="file"
-                id="profileImageInput"
-                style={{ display: "none" }}
-                onChange={(e) => handleProfileImageChange(e.target.files)}
-              />
-              <label style={{ color: "white" }} htmlFor="profileImageInput">
-                Seleccionar nueva imagen de perfil
-              </label>
-            </div>
-          ) : (
-            <>
-            {console.log("URL del front antes de img:", userProfile.profileImage)}
-              {userProfile.profileImage ? (
-                <img
-                  src={`${userProfile.profileImage}`}
-                  alt="Perfil"
-                  className="profile-image"
-                />
-              ) : null}
-            </>
-          )}
+          <div className="position-Btn">
+            <input
+              type="file"
+              id="profileImageInput"
+              style={{ display: "none" }}
+              onChange={(e) => handleProfileImageChange(e.target.files)}
+            />
+            <label className="button" style={{ color: "black" }} htmlFor="profileImageInput">
+            </label>
+          </div>
+
+          {downloadURL ? (
+            <img
+              src={downloadURL}
+              alt="Perfil"
+              className="profile-image"
+            />
+          ) : null}
         </div>
-        <form className="publiText" onSubmit={handlePublish}>
+
+        <form className="publiText" encType="multipart/form-data" onSubmit={postPublication}>
+          <input type="file"
+            ref={fileInputRef}
+            name="file" 
+            style={{ display: "none" }}
+            id='Publicacion'/>
+            <label className='publicacion' htmlFor="Publicacion"></label>
+
           <textarea
             className="textarea"
-            placeholder="Escribe tu nueva publicación"
-            value={newPublication.contenido}
-            onChange={(e) =>
-              setNewPublication({
-                ...newPublication,
-                contenido: e.target.value,
-              })
-            }
-          ></textarea>
-          <input
-            type="text"
-            placeholder="URL de la imagen (opcional)"
-            value={newPublication.url}
-            onChange={(e) =>
-              setNewPublication({
-                ...newPublication,
-                url: e.target.value,
-              })
-            }
-          />
-          <button type="submit">Publicar</button>
+            name="description"
+            placeholder="Escribe nueva publicacion"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            ref={descriptionTextareaRef} />
+          <h2 style={{ color: 'black', marginTop: '60px' }}>Publicaciones </h2>
+          {error && <p>Error: {error}</p>}
+          <button
+            className="btnPublication"
+            type="submit"></button>
         </form>
-
-        {publications.length > 0 ? (
-          <div className="publications">
-            {publications.map((publication) => (
-              <div key={publication._id} className="publicacion">
-                <div className="nombre-usuario">
-                  <div className="post-profile">
-                    <div className="post-img">
-                      <img src={userProfile.profileImage} alt="" />
-                    </div>
-                    <h3>{userProfile.name}</h3>
-                  </div>
-                </div>
-                <div className="contenido">{publication.contenido}</div>
-                <img
-                  src={publication.url}
-                  alt="Imagen de la publicación"
-                  className="imagen-publicacion"
-                />
-                <div className="post-box">
-                  <button
-                    name="Love"
-                    onClick={() => increaseReactions(publication.url)}
-                  >
-                    <i className="ri-heart-line"></i>
-                    <span>{publication.reactions.like.length}</span>
-                  </button>
-                  <div>
-                    <i className="ri-chat-3-line"></i>
-                    <span>{publication.reactions.comments.length}k</span>
-                  </div>
-                  <button name="comments">
-                    <i className="ri-download-cloud-2-line"></i>
-                    <span>{publication.reactions.share.length}k</span>
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p>No hay publicaciones disponibles.</p>
-        )}
       </div>
+      <ul className='collageImage'>
+        {publicaciones.map((publicacion, index) => (
+          <li className='card' key={index}>
+          <div className='delete'><h2> {auth.getUser()?.name ?? ""}</h2><button className='recycle'></button></div>
+            <p className='decription'> {publicacion.description}</p>
+            <img className='card-image' src={publicacion.image} alt="" />
+          </li>
+        ))}
+      </ul>
+
     </PortalLayout>
   );
 }
+
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
+// function setFile(_file: any) {
+//   throw new Error("Function not implemented.");
+// }
+
+// module.exports = {
+//   "rules": {
+//     "no-unused-vars": "on",
+//     "@typescript-eslint/no-unused-vars": "error"
+//   }
+// };
