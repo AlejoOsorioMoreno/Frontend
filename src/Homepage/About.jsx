@@ -9,12 +9,8 @@ export const About = () => {
             <img src={AboutImg} alt="" />
         </div>
         <div className="Container-text-About">
-            <h1 className='h1-About'>ABOUT <span>US</span></h1>
-            <p className='p-about'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae obcaecati sint nulla omnis, laborum libero nihil illum accusantium ratione officiis animi minus alias doloribus velit ad culpa numquam, aut laudantium?
-            Ab at fuga quas, rerum exercitationem deleniti similique officiis eveniet perspiciatis obcaecati, enim quam reiciendis maxime facere provident tempore omnis, iusto ut iste voluptatem! Fugit minima fugiat inventore ipsam magni.
-            Minus quis temporibus laborum nesciunt iure impedit magnam placeat fugiat ducimus reprehenderit hic, nostrum cum fugit voluptate a, dolore quidem totam? Ea fugit debitis doloribus excepturi tempora. Eaque, excepturi beatae.
-            Provident optio fuga deserunt facilis incidunt debitis maxime nam vel voluptatem? Placeat repellendus blanditiis culpa, modi deleniti commodi in fugiat suscipit corrupti, architecto impedit mollitia officia fuga quis omnis a.
-            Quae animi quisquam eligendi, deleniti tempore illo. Et rem voluptates ipsam velit alias magnam culpa esse consequatur, deleniti, quas qui modi natus delectus eos, magni adipisci doloribus exercitationem labore pariatur!</p>
+            <h1 className='h1-About'>¿Quiénes <span>somos?</span></h1>
+            <p className='p-about'>El Proyecto Multiservicios nace como respuesta a la cotidiana lucha de las personas por encontrar profesionales capaces de resolver sus problemas esenciales en nuestros hogares y satisfacer sus necesidades. Conscientes de la necesidad de simplificar este proceso, nuestro equipo se empeñó en la creación de una innovadora solución. Este proyecto se enfoca en proporcionar a los usuarios una plataforma de comunicación que les permita encontrar expertos en diversas áreas y, al mismo tiempo, agendar citas y resolver consultas para mejorar su experiencia en la búsqueda de servicios.</p>
         </div>
     </section>
   )

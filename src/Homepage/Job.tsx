@@ -1,7 +1,8 @@
-import React from 'react'
-import Llamada from '../../public/img/llamada.avif'
-import EquiTrabajo from '../../public/img/EquiTrabajo.avif'
+
 import './StyleHome/Job.css'
+
+const Llamada="https://firebasestorage.googleapis.com/v0/b/react-firebase-upload-480ee.appspot.com/o/logo%2FLlamada.avif_1707655939871?alt=media&token=227fbb4d-dc00-4686-a6de-fdc418ad710a";
+const EquiTrabajo="https://firebasestorage.googleapis.com/v0/b/react-firebase-upload-480ee.appspot.com/o/logo%2FEquiTrabajo.avif_1707656110356?alt=media&token=1b2a1b30-628a-4a43-adc5-80075d99ce2c";
 
 export const Job = () => {
   return (

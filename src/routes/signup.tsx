@@ -64,8 +64,16 @@ export default function Signup() {
               <input type="email" value={username} onChange={(e) => setUsername(e.target.value)}></input>
             </div>
             <div className="input-box">
-              <label>password</label>
+              <label>Password</label>
               <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}></input>
+            </div>
+            <div className="input-box">
+              <label>Type of user</label>
+              <select id="combo-box">
+                <option value="">-- Selecciona --</option>
+                <option value="opcion1">Cliente</option>
+                <option value="opcion2">Profesional</option>
+              </select>
             </div>
             <button type="submit" className="btn">Create User</button>
           </form>

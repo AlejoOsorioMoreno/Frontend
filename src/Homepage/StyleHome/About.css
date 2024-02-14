@@ -31,11 +31,14 @@
     margin-bottom: 10px;
     width: 400px;
     margin: 0 auto;
-    font-size: 50px;
+    font-size: 45px;
     color: #fff;
   }
   .h1-About span{
     color: #8d989c;
+  }
+  .h1-About span:hover{
+    color: #fff;
   }
   
   .Container-text-About p {

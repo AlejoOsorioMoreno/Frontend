@@ -5,9 +5,8 @@ const FrontPage = () => {
   return (
     <section className='container-father-page'>
       <div className="container-text">
-        <h1 className='title-page'>MULTISERVICIOS COMPANY </h1>
-        <h2 className='subTitle-page'>WEB DESIGN</h2>
-        <button className='button-frontPage'>FUNCIONA?</button>
+        <h1 className='title-page'>MULTISERVICIOS</h1>
+        <h2 className='subTitle-page'>¡La solución en la puerta de tu casa!</h2>
       </div>
     </section>
   );

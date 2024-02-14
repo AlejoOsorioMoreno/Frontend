@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import Signup from '../routes/signup';
 import Dashboard from '../routes/dashboard';
 import Login from '../routes/login'
+import ServicesPage from "../Services Page/ServicesPage";
 import React from "react";
 import '../layout/DefaultLayout.css'
 import logo from '../../public/img/logo.png';
@@ -19,13 +20,16 @@ export default function DefaultLayout({children}:DefaultLayoutProps){
             <nav className="nav-layout">
                 <ul className="ul-layout">
                     <li className="li--layout">
-                        <Link to="/">Home</Link>
+                        <Link to="/">Inicio</Link>
                     </li>
                     <li className="li--layout">
-                        <Link to="/signup">Signup</Link>
+                        <Link to="/ServicesPage">Servicios</Link>
                     </li>
                     <li className="li--layout">
-                        <Link to="/login">Login</Link>
+                        <Link to="/Signup">Registrarse</Link>
+                    </li>
+                    <li className="li--layout">
+                        <Link to="/login">Iniciar Sesion</Link>
                     </li>
                 </ul>
             </nav>
