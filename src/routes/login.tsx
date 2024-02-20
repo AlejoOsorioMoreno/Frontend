@@ -66,27 +66,27 @@ export default function Login(){
     <section className="father">
         <div className="wrapper">
           <form action="">
-            <h1>Login</h1>
+            <h1>Inicio de sesión</h1>
             <div className="input-box">
-              <input type="text" placeholder="Username" required />
+              <input type="email" placeholder="correo electronico" required />
               <i className='bx bxs-user'></i>
             </div>
             <div className="input-box">
-              <input type="password" placeholder="Password" required />
+              <input type="password" placeholder="Contraseña" required />
               <i className='bx bxs-lock-alt'></i>
             </div>
             <div className="remember-forgot">
               <label>
-                <input type="checkbox" />Remember Me
+                <input type="checkbox" />Recordar usuario
               </label>
-              <a href="#">¿Forgot Password?</a>
+              <a href="#">¿Has olvidado tu contraseña?</a>
             </div>
             <button type="submit" className="btn">
-              Login
+              Iniciar sesión
             </button>
             <div className="register-link">
               <p>
-                Don't have an account? <a href="/signup">Register</a>
+              ¿No tienes una cuenta? <a href="/signup">Registrarse</a>
               </p>
             </div>
           </form>

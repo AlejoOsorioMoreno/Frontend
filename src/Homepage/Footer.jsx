@@ -11,7 +11,7 @@ const Footer = () => {
         
         <div className="info">
           <div className="copyrigth">
-            <p>&copy; MULTISERVICIOS COMPANY</p>
+            <p>&copy; MULTISERVICIOS</p>
           </div>
           <div className="social">
             <div className="media">

@@ -50,3 +50,22 @@
     background-color: #000000;
     color: #ffffff;
   }
+
+  @media only screen and (max-width: 480px){
+    .title-page {
+      font-size: 2rem;
+    }
+    .subTitle-page{
+      font-size: 1.5rem;
+    }
+  }
+  @media only screen and  (max-width: 768px){
+    .title-page{
+      font-size: 2.5rem;
+    }
+    .subTitle-page{
+      font-size: 1.5rem;
+    }
+  };
+    
+  

@@ -9,7 +9,7 @@
 }
 
 .container-text-Advertising {
-    width: 30%;
+    width: 65%;
     box-sizing: border-box;
     padding: 20px;
     text-align: center;
@@ -34,3 +34,26 @@
     height: 95px;
     margin: auto;
 }
+
+@media only screen and (max-width: 480px) {
+    .container-father-Advertising{
+      height: auto;
+      flex-direction: column;
+    }
+    .container-text-Advertising{
+      max-width: 65%;
+      padding-top: 22px;
+    }
+    .p-Advertising{
+      display: contents;
+    }
+
+  }
+
+  @media only screen and (max-width: 768px){
+    .container-father-Advertising{
+      flex-direction: column;
+      height: 120vh;
+      justify-content:center;
+    }
+  }
